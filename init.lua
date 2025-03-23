@@ -1,33 +1,21 @@
 -- Set <space> as the leader key
 -- See `:help mapleader`
--- NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+-- NOTE: Must happen before plugins are loaded
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
--- [[ Setting options ]]
+-- [[ Setting Options ]]
 -- See `:help vim.opt`
 vim.opt.number = true
 vim.opt.mouse = 'a'
 vim.opt.showmode = false
 
--- Sync clipboard between OS and Neovim on WSL2
--- WSL2 requires `unnamedplus` and a clipboard provider like `win32yank.exe`
+-- Sync clipboard between OS and Neovim on macOS
+-- macOS uses `unnamedplus` and works natively with the system clipboard
 vim.opt.clipboard = 'unnamedplus'
-vim.g.clipboard = {
-  name = 'WSLClipboard',
-  copy = {
-    ['+'] = 'win32yank.exe -i --crlf',
-    ['*'] = 'win32yank.exe -i --crlf',
-  },
-  paste = {
-    ['+'] = 'win32yank.exe -o --lf',
-    ['*'] = 'win32yank.exe -o --lf',
-  },
-  cache_enabled = 0,
-}
 
 vim.opt.breakindent = true
 vim.opt.undofile = true
@@ -80,7 +68,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
+-- [[ Configure and Install Plugins ]]
 require('lazy').setup({
   'tpope/vim-sleuth',
   {
@@ -367,7 +355,7 @@ require('lazy').setup({
     priority = 1000,
     config = function()
       require('gruvbox').setup { styles = { comments = { italic = false } } }
-      vim.cmd.colorscheme 'gruvbox' -- Changed to match plugin name
+      vim.cmd.colorscheme 'gruvbox'
     end,
   },
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
