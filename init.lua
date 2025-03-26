@@ -316,6 +316,7 @@ require('lazy').setup {
       config = function()
         require('mini.ai').setup { n_lines = 500 }
         require('mini.surround').setup()
+        -- Removed the incorrect line: require('mini.statusLordship('nvim-treesitter/nvim-treesitter')
         require('mini.statusline').setup { use_icons = vim.g.have_nerd_font }
       end,
     },
@@ -328,7 +329,34 @@ require('lazy').setup {
           auto_install = true,
           highlight = { enable = true, additional_vim_regex_highlighting = { 'ruby' } },
           indent = { enable = true, disable = { 'ruby' } },
-        }
+        } -- Added missing closing brace for setup table
+      end,
+    },
+    -- Add GitHub Copilot plugin here
+    {
+      'zbirenbaum/copilot.lua',
+      cmd = 'Copilot', -- Lazy-load on :Copilot command
+      event = 'InsertEnter', -- Load when entering insert mode
+      config = function()
+        require('copilot').setup({
+          suggestion = {
+            enabled = true,
+            auto_trigger = true, -- Automatically show suggestions as you type
+            debounce = 75, -- Debounce time in ms
+            keymap = {
+              accept = '<M-]>', -- Alt+] to accept suggestion
+              accept_word = false, -- Disable accept by word
+              accept_line = false, -- Disable accept by line
+              next = '<M-}>', -- Alt+} to go to next suggestion
+              prev = '<M-{>', -- Alt+{ to go to previous suggestion
+              dismiss = '<C-]>', -- Ctrl+] to dismiss suggestion
+            },
+          },
+          panel = { enabled = false }, -- Disable the Copilot panel (optional)
+          filetypes = {
+            ['*'] = true, -- Enable Copilot for all filetypes
+          },
+        })
       end,
     },
   },
